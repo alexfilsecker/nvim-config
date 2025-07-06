@@ -90,9 +90,11 @@ return {
       "eslint",
       "html",
       "prismals",
-      "pylsp",
+      -- "pylsp",
+      -- "pyright",
       "tailwindcss",
       "ts_ls",
+      "sourcekit",
     }
 
     for i = 1, #normal_setup_lsp do
@@ -145,65 +147,5 @@ return {
         },
       },
     })
-
-    -- mason_lspconfig.setup_handlers({
-    --   -- default handler for installed servers
-    --   function(server_name)
-    --     lspconfig[server_name].setup({
-    --       capabilities = capabilities,
-    --       on_attach = on_attach,
-    --     })
-    --   end,
-    --
-    --   ["svelte"] = function()
-    --     lspconfig["svelte"].setup({
-    --       capabilities = capabilities,
-    --       on_attach = function(client, buffer)
-    --         if client.name == "svelte" then
-    --           vim.api.nvim_create_autocmd("BufWritePost", {
-    --             pattern = { "*.js", "*.ts" },
-    --             group = vim.api.nvim_create_augroup(
-    --               "svelte_ondidchangetsorjsfile",
-    --               { clear = true }
-    --             ),
-    --             callback = function(ctx)
-    --               -- Here use ctx.match instead of ctx.file
-    --               client.notify("$/onDidChangeTsOrJsFile", { uri = ctx.match })
-    --             end,
-    --           })
-    --         end
-    --         on_attach(client, buffer)
-    --       end,
-    --     })
-    --   end,
-    --
-    --   ["lua_ls"] = function()
-    --     -- configure lua server (with special settings)
-    --     lspconfig["lua_ls"].setup({
-    --       capabilities = capabilities,
-    --       on_attach = on_attach,
-    --       settings = {
-    --         Lua = {
-    --           completion = {
-    --             callSnippet = "Replace",
-    --           },
-    --         },
-    --       },
-    --     })
-    --   end,
-    --   ["cssls"] = function()
-    --     lspconfig["cssls"].setup({
-    --       capabilities = capabilities,
-    --       on_attach = on_attach,
-    --       settings = {
-    --         css = {
-    --           lint = {
-    --             unknownAtRules = "ignore",
-    --           },
-    --         },
-    --       },
-    --     })
-    --   end,
-    -- })
   end,
 }
