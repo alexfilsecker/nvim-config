@@ -86,7 +86,7 @@ return {
     end
 
     local normal_setup_lsp = {
-      "clangd",
+      -- "clangd",
       "eslint",
       "html",
       "prismals",
@@ -94,7 +94,7 @@ return {
       -- "pyright",
       "tailwindcss",
       "ts_ls",
-      "sourcekit",
+      -- "sourcekit",
     }
 
     for i = 1, #normal_setup_lsp do
@@ -145,6 +145,18 @@ return {
             unknownAtRules = "ignore",
           },
         },
+      },
+    })
+
+    lspconfig["clangd"].setup({
+      on_attach = on_attach,
+      capabilities = capabilities,
+      cmd = {
+        "/usr/local/Cellar/llvm/20.1.7/bin/clangd",
+        "--compile-commands-dir=.",
+        "--background-index",
+        "-j=12",
+        "--target=xtensa-esp32-elf",
       },
     })
   end,
