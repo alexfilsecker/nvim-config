@@ -1,6 +1,3 @@
--- This is another plugin that adds some nice functionality for interacting
--- with the lsp and some other things like todo comments.
-
 return {
   "folke/trouble.nvim",
   opts = {}, -- for default options, refer to the configuration section for custom setup.

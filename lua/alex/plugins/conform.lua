@@ -1,5 +1,6 @@
 -- Here we place all formating related config
 
+
 return {
   "stevearc/conform.nvim",
   event = { "BufReadPre", "BufNewFile" },
@@ -20,18 +21,21 @@ return {
       graphql = { "prettier" },
       liquid = { "prettier" },
       lua = { "stylua" },
-      -- python = { "isort", "black" },
     }
 
     local formaters = {
       stylua = {
         indent_type = "Spaces",
       },
+      black = {
+        timeout_ms = 5000,
+      },
     }
 
     conform.setup({
       formatters_by_ft = formaters_by_ft,
       formaters = formaters,
+      log_level = vim.log.levels.DEBUG,
     })
 
     vim.keymap.set({ "n", "v" }, "<leader>mp", function()

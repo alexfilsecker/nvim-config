@@ -1,15 +1,14 @@
--- This plugin is for searching anything
-
 return {
-  "nvim-telescope/telescope.nvim",
-  tag = "0.1.6",
+  'nvim-telescope/telescope.nvim', tag = 'v0.2.0',
   dependencies = {
-    "nvim-lua/plenary.nvim",
+    'nvim-lua/plenary.nvim',
     { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
-    "nvim-tree/nvim-web-devicons",
-    "folke/todo-comments.nvim",
+    "nvim-telescope/telescope-smart-history.nvim",
+    {
+      "kkharji/sqlite.lua",
+      build = "make",   -- IMPORTANT: builds the sqlite.so file
+    },
   },
-
   config = function()
     local telescope = require("telescope")
     local actions = require("telescope.actions")
@@ -17,18 +16,32 @@ return {
     telescope.setup({
       defaults = {
         path_display = { "smart" }, -- Shows only the necesary part of the path
+        history = {
+          path = vim.fn.stdpath("data") .. "/telescope_history",
+          limit = 100, -- number of queries to store for each picker
+        },
+        file_ignore_patterns = {
+          "node_modules",
+          ".git",
+          "dist",
+          "build",
+          "coverage",
+        },
         mappings = {
           i = {
             ["<C-k>"] = actions.move_selection_previous, --move to prev result
             ["<C-j>"] = actions.move_selection_next, --move to next result
-            ["<C-q>"] = actions.send_selected_to_qflist + actions.open_qflist, -- No clue what this does
           },
         },
       },
     })
 
+
+
     -- Load fzf for finding in a fuzzy way
     telescope.load_extension("fzf")
+    telescope.load_extension("smart_history")
+
 
     -- Set keymaps
     local keymap = vim.keymap -- For conciseness
@@ -42,8 +55,8 @@ return {
     keymap.set(
       "n",
       "<leader>fr",
-      "<cmd>Telescope oldfiles<CR>",
-      { desc = "Fuzzy find recent files" }
+      "<cmd>Telescope resume<CR>",
+      { desc = "Resume last telescope search" }
     )
     keymap.set(
       "n",
@@ -59,15 +72,10 @@ return {
     )
     keymap.set(
       "n",
-      "<leader>fh",
-      "<cmd>Telescope help_tags<CR>",
-      { desc = "Search across help" }
+      "<leader>fb",
+      "<cmd>Telescope buffers<CR>",
+      { desc = "Fuzzy find open buffers in current neovim instance" }
     )
-    keymap.set(
-      "n",
-      "<leader>ft",
-      "<cmd>TodoTelescope<cr>",
-      { desc = "Find todos" }
-    )
-  end,
+
+  end
 }

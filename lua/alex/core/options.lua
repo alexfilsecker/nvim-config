@@ -57,3 +57,11 @@ opt.swapfile = false -- No swap file
 opt.backup = false -- No backups
 vim.undofile = true -- Undo history saving
 vim.undodir = os.getenv("HOME") .. "/.vim/undodir" -- Path to save undoes
+
+-- Disable unused providers
+vim.g.loaded_perl_provider = 0
+vim.g.loaded_ruby_provider = 0
+
+-- Adjust python provider
+vim.g.python3_host_prog = vim.fn.expand("~/.pyenv/versions/neovim-env/bin/python3")
+
