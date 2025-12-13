@@ -61,6 +61,12 @@ return {
     local cmp = require("cmp_nvim_lsp")
     local capabilities = cmp.default_capabilities()
 
+    -- Add folding range capability
+    capabilities.textDocument.foldingRange = {
+      dynamicRegistration = false,
+      lineFoldingOnly = true,
+    }
+
     -------------------------------------------------------------------------
     -- LSP server list
     -------------------------------------------------------------------------
@@ -71,7 +77,6 @@ return {
       "pyright"
       -- Add more here later: "pyright", "tsserver", etc.
     }
-
 
     -------------------------------------------------------------------------
     -- Configure + enable each server
