@@ -1,3 +1,8 @@
 {
-  "diagnostics.globals": ["vim"]
+  "Lua.workspace.library": [
+    "$VIMRUNTIME",
+    "~/.local/share/nvim/lazy"
+  ],
+  "Lua.workspace.checkThirdParty": false,
+  "Lua.diagnostics.globals": ["vim"]
 }
