@@ -65,3 +65,6 @@ vim.g.loaded_ruby_provider = 0
 -- Adjust python provider
 vim.g.python3_host_prog = vim.fn.expand("~/.pyenv/versions/neovim-env/bin/python3")
 
+-- Local configs
+opt.exrc = true -- Enable local .nvim.lua or .vimrc files
+vim.opt.secure = true -- sandbox it (IMPORTANT)
