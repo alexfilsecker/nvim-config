@@ -74,8 +74,8 @@ return {
       "lua_ls",
       "ts_ls",
       "eslint_d",
-      "pyright"
-      -- Add more here later: "pyright", "tsserver", etc.
+      "pyright",
+      "gopls",
     }
 
     -------------------------------------------------------------------------
