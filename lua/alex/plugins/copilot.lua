@@ -8,5 +8,5 @@ return {
       'copilot#Accept("<CR>")',
       { expr = true, replace_keycodes = false }
     )
-  end
+  end,
 }
