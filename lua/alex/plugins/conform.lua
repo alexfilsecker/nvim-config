@@ -1,6 +1,5 @@
 -- Here we place all formating related config
 
-
 return {
   "stevearc/conform.nvim",
   event = { "BufReadPre", "BufNewFile" },
@@ -21,6 +20,7 @@ return {
       graphql = { "prettier" },
       liquid = { "prettier" },
       lua = { "stylua" },
+      go = { "goimports", "gofumpt" },
     }
 
     local formaters = {
