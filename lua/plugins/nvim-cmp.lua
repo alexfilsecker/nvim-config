@@ -12,7 +12,7 @@ return {
     local cmp = require("cmp")
     local lspkind = require("lspkind")
     local luasnip = require("luasnip")
-    local cmp_autopairs = require('nvim-autopairs.completion.cmp')
+    local cmp_autopairs = require("nvim-autopairs.completion.cmp")
 
     cmp.setup({
       snippet = {
@@ -33,6 +33,9 @@ return {
       mapping = cmp.mapping.preset.insert({
         ["<CR>"] = cmp.mapping.confirm({ select = true }),
         ["<C-Space>"] = cmp.mapping.complete(),
+        ["<C-u>"] = cmp.mapping.scroll_docs(-4),
+        ["<C-d>"] = cmp.mapping.scroll_docs(4),
+        ["<C-e>"] = cmp.mapping.abort(),
       }),
 
       sources = cmp.config.sources({
@@ -41,9 +44,7 @@ return {
       }),
     })
 
-    cmp.event:on(
-      'confirm_done',
-      cmp_autopairs.on_confirm_done()
-    )
+
+    cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
   end,
 }
