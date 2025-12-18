@@ -36,7 +36,7 @@ keymap.set(
 -- Reset search highlighting
 keymap.set(
   "n",
-  "<leader>nh",
+  "<leader>hn",
   vim.cmd.nohlsearch,
   { desc = "Remove search highlighting" }
 )
