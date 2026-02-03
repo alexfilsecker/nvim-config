@@ -18,7 +18,6 @@ keymap.set("n", "<leader>s-", vim.cmd.split, { desc = "Do a horizontal split" })
 keymap.set("n", "<leader>se", "<C-w>=", { desc = "Split equally" })
 keymap.set("n", "<leader>sx", "<cmd>close<CR>", { desc = "Close current pane" })
 
-
 -- External clipboard
 keymap.set(
   { "n", "v" },
@@ -48,3 +47,9 @@ keymap.set("v", "K", ":m '>-2<CR>gv=gv", { noremap = true })
 -- Increment/Decrement numbers
 keymap.set("n", "<leader>+", "<C-a>", { desc = "Increment number" }) -- increment
 keymap.set("n", "<leader>-", "<C-x>", { desc = "Decrement number" }) -- increment
+
+-- terminal
+keymap.set("t", "<C-x>", "<C-\\><C-n>", { desc = "Exit Terminal Mode" })
+keymap.set("n", "<leader>tt", ":terminal<CR>", { desc = "Open Terminal" })
+keymap.set("n", "<leader>tb", ":split | terminal<CR>", { desc = "Open Terminal on bottom" })
+
