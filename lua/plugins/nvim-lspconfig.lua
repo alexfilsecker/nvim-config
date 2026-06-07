@@ -22,7 +22,29 @@ return {
 
         opts.desc = "Restart LSP"
         keymap.set("n", "<leader>rs", ":LspRestart<CR>", opts)
+
+        opts.desc = "Apply source.fixAll"
+        keymap.set("n", "<leader>fx", function()
+          vim.lsp.buf.code_action({
+            apply = true,
+            context = { only = { "source.fixAll" }, diagnostics = {} },
+          })
+        end, opts)
+
       end
+    })
+
+    vim.api.nvim_create_autocmd("BufWritePre", {
+      pattern = "*",
+      callback = function()
+        local clients = vim.lsp.get_clients({ bufnr = vim.api.nvim_get_current_buf() })
+        if not vim.tbl_isempty(clients) then
+          vim.lsp.buf.code_action({
+            apply = true,
+            context = { only = { "source.fixAll" }, diagnostics = {} },
+          })
+        end
+      end,
     })
 
     -------------------------------------------------------------------------

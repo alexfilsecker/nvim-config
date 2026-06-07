@@ -45,5 +45,12 @@ return {
         timeout_ms = 1000,
       })
     end, { desc = "Format file or range (in visual mode)" })
+
+    vim.api.nvim_create_autocmd("BufWritePre", {
+      pattern = "*",
+      callback = function(args)
+        conform.format({ bufnr = args.buf, lsp_fallback = true })
+      end,
+    })
   end,
 }

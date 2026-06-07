@@ -4,10 +4,8 @@ return {
   "nvim-treesitter/nvim-treesitter",
   event = { "BufReadPre", "BufNewFile" },
   build = ":TSUpdate",
-  config = function()
-    local configs = require("nvim-treesitter.configs")
+  opts = {
 
-    configs.setup({
       -- Enable syntax highlighting
       highlight = {
         enable = true,
@@ -20,6 +18,6 @@ return {
       -- Auto install new languajes
       sync_install = false,
       auto_install = true,
-    })
-  end,
+    }
+  
 }
