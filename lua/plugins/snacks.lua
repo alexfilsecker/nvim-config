@@ -14,7 +14,7 @@ return {
     },
     indent = { enabled = true },
     input = { enabled = true },
-    image = { enabled = true },
+    image = { enabled = true, math = { enabled = false } },
     notifier = {
       enabled = true,
       timeout = 3000,

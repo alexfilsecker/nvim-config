@@ -3,7 +3,10 @@ return {
   event = "InsertEnter",
   dependencies = {
     "hrsh7th/cmp-nvim-lsp",
-    "L3MON4D3/LuaSnip",
+    {
+      "L3MON4D3/LuaSnip",
+      build = "make install_jsregexp",
+    },
     "saadparwaiz1/cmp_luasnip",
     "onsails/lspkind.nvim",
   },
@@ -43,7 +46,6 @@ return {
         { name = "luasnip" },
       }),
     })
-
 
     cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
   end,

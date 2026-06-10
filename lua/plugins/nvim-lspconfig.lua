@@ -82,5 +82,10 @@ return {
 
       vim.lsp.enable(server)
     end
+
+    -- Override gopls to exclude gotmpl (not used)
+    vim.lsp.config("gopls", {
+      filetypes = { "go", "gomod", "gowork" },
+    })
   end
 }
