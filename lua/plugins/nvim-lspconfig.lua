@@ -23,29 +23,24 @@ return {
         opts.desc = "Restart LSP"
         keymap.set("n", "<leader>rs", ":LspRestart<CR>", opts)
 
-        opts.desc = "Apply source.fixAll"
+        -- Deliberately broader than the one that runs on save. That one is
+        -- eslint-only, because ts_ls charges a flat ~500ms per save to answer
+        -- `source.fixAll`. This is the opt-in to paying it: every attached
+        -- client, ts_ls included. Async is fine here -- there's no write
+        -- racing the response the way there is in BufWritePre.
+        opts.desc = "Apply source.fixAll (all clients, incl. slow ts_ls)"
         keymap.set("n", "<leader>fx", function()
           vim.lsp.buf.code_action({
             apply = true,
             context = { only = { "source.fixAll" }, diagnostics = {} },
           })
         end, opts)
-
-      end
-    })
-
-    vim.api.nvim_create_autocmd("BufWritePre", {
-      pattern = "*",
-      callback = function()
-        local clients = vim.lsp.get_clients({ bufnr = vim.api.nvim_get_current_buf() })
-        if not vim.tbl_isempty(clients) then
-          vim.lsp.buf.code_action({
-            apply = true,
-            context = { only = { "source.fixAll" }, diagnostics = {} },
-          })
-        end
       end,
     })
+
+    -- `source.fixAll` on save lives in lua/core/lsp-fix-all.lua and is driven
+    -- from conform.nvim's BufWritePre, so the eslint/prettier order is fixed
+    -- in one place instead of falling out of lazy.nvim's load order.
 
     -------------------------------------------------------------------------
     -- Capabilities (for completion)
@@ -62,13 +57,8 @@ return {
     -------------------------------------------------------------------------
     -- LSP server list
     -------------------------------------------------------------------------
-    local servers = {
-      "lua_ls",
-      "ts_ls",
-      "eslint_d",
-      "pyright",
-      "gopls",
-    }
+    -- Shared with lua/plugins/mason.lua, which installs them.
+    local servers = require("core.lsp-servers")
 
     -------------------------------------------------------------------------
     -- Configure + enable each server
@@ -87,5 +77,5 @@ return {
     vim.lsp.config("gopls", {
       filetypes = { "go", "gomod", "gowork" },
     })
-  end
+  end,
 }

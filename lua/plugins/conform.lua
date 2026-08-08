@@ -7,7 +7,7 @@ return {
     local conform = require("conform")
 
     -- If falabella disable formating on save
-    local formaters_by_ft = {
+    local formatters_by_ft = {
       javascript = { "prettier" },
       typescript = { "prettier" },
       javascriptreact = { "prettier" },
@@ -23,18 +23,12 @@ return {
       go = { "goimports", "gofumpt" },
     }
 
-    local formaters = {
-      stylua = {
-        indent_type = "Spaces",
-      },
-      black = {
-        timeout_ms = 5000,
-      },
-    }
-
+    -- No `formatters` override table here on purpose. stylua's own settings
+    -- live in .stylua.toml, which is what the binary reads -- conform has no
+    -- say in them. Per-formatter `timeout_ms` isn't a thing either; that
+    -- belongs to format() / default_format_opts.
     conform.setup({
-      formatters_by_ft = formaters_by_ft,
-      formaters = formaters,
+      formatters_by_ft = formatters_by_ft,
       log_level = vim.log.levels.DEBUG,
     })
 
@@ -46,9 +40,17 @@ return {
       })
     end, { desc = "Format file or range (in visual mode)" })
 
+    -- The only BufWritePre that rewrites the buffer. LSP `source.fixAll` used
+    -- to register its own in nvim-lspconfig.lua, and since both plugins
+    -- lazy-load on BufReadPre, lazy.nvim's load order picked the winner: an
+    -- eslint autofix that reintroduces something prettier rewrites (or the
+    -- reverse) could come out differently on two machines. eslint --fix first,
+    -- prettier last so formatting always has the final say.
     vim.api.nvim_create_autocmd("BufWritePre", {
+      group = vim.api.nvim_create_augroup("conform_format", { clear = true }),
       pattern = "*",
       callback = function(args)
+        require("core.lsp-fix-all").run(args.buf)
         conform.format({ bufnr = args.buf, lsp_fallback = true })
       end,
     })
