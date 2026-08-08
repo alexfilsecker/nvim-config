@@ -1,3 +1,16 @@
+local preview = require("core.preview-buffer")
+
+-- Files opened from these pickers become preview buffers. Unlike the explorer,
+-- these sources have no `config` hook, so overriding `confirm` directly works.
+local preview_confirm = preview.preview_confirm(function()
+  return Snacks.picker.actions.confirm
+end)
+
+-- The explorer keeps its own confirm, which the wrapper has to reach through.
+local explorer_preview_confirm = preview.preview_confirm(function()
+  return require("snacks.explorer.actions").actions.confirm
+end)
+
 return {
   "folke/snacks.nvim",
   priority = 1000,
@@ -10,7 +23,7 @@ return {
       filters = {
         exclude = {},
         hidden = false,
-      }
+      },
     },
     indent = { enabled = true },
     input = { enabled = true },
@@ -32,6 +45,41 @@ return {
             preview = "main",
           },
         },
+        -- The explorer's own `config` hook overwrites `actions.confirm` after
+        -- our config is merged, so we register under a new name and point the
+        -- confirm keys at it instead. Splits (<C-s>/<C-v>) keep the original
+        -- action: opening into a split is deliberate, not a preview.
+        explorer = {
+          actions = {
+            preview_confirm = explorer_preview_confirm,
+          },
+          win = {
+            list = {
+              keys = {
+                ["<CR>"] = "preview_confirm",
+                ["l"] = "preview_confirm",
+                ["<2-LeftMouse>"] = "preview_confirm",
+              },
+            },
+            input = {
+              keys = {
+                ["<CR>"] = { "preview_confirm", mode = { "n", "i" } },
+              },
+            },
+          },
+        },
+        files = { confirm = preview_confirm },
+        git_files = { confirm = preview_confirm },
+        -- Same sidebar treatment as the explorer: stays open while you click
+        -- through the changed files, each one opening as a preview buffer.
+        git_status = {
+          confirm = preview_confirm,
+          layout = { preset = "sidebar", preview = false },
+          focus = "list",
+          auto_close = false,
+          jump = { close = false },
+        },
+        recent = { confirm = preview_confirm },
       },
     },
   },
@@ -74,6 +122,13 @@ return {
       desc = "Recent",
     },
     -- git
+    {
+      "<leader>gs",
+      function()
+        Snacks.picker.git_status()
+      end,
+      desc = "Git Status",
+    },
     {
       "<leader>gl",
       function()
@@ -333,6 +388,9 @@ return {
 
         -- Override print to use snacks for `:=` command
         if vim.fn.has("nvim-0.11") == 1 then
+          -- Deliberately shadowing the runtime's vim._print so `:=` renders
+          -- through snacks.debug.
+          ---@diagnostic disable-next-line: duplicate-set-field
           vim._print = function(_, ...)
             dd(...)
           end

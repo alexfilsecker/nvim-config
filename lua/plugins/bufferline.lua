@@ -10,12 +10,6 @@ return {
         diagnostics = "nvim_lsp",
         offsets = {
           {
-            filetype = "NvimTree",
-            text = "File Explorer",
-            highlight = "Directory",
-            text_align = "left",
-          },
-          {
             filetype = "snacks_layout_box",
           },
         },
@@ -85,11 +79,14 @@ return {
     )
 
     -- Pinning
-    keymap(
-      "n",
-      "<leader>bP",
-      "<cmd>BufferLineTogglePin<CR>",
-      { desc = "Toggle pin on buffer" }
-    )
+    -- Promote first, so the next explorer open can't close the buffer we just
+    -- pinned. This fires on both directions of the toggle, which is harmless:
+    -- a pinned buffer was already promoted, so unpinning finds nothing left to
+    -- clear. Unpinning deliberately does not hand the buffer back to preview
+    -- state -- once permanent, always permanent, like VS Code.
+    keymap("n", "<leader>bP", function()
+      require("core.preview-buffer").promote()
+      vim.cmd("BufferLineTogglePin")
+    end, { desc = "Toggle pin on buffer" })
   end,
 }
