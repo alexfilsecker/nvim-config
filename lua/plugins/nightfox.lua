@@ -7,7 +7,6 @@ return {
     -- blend value for comments from 0.4 to 0.5
     -- because I am too blind to see them otherwise
 
-
     local C = require("nightfox.lib.color")
     local carbonfox_og_return = require("nightfox.palette.carbonfox")
     local og_palette = carbonfox_og_return.palette
@@ -17,20 +16,15 @@ return {
     local og_bg = C(og_bg_str)
     local new_comment_str = og_bg:blend(og_fg, 0.5):to_css()
 
-
-    -- here is a comment to see how it looks
-    local not_used_var
-
-
     local nightfox = require("nightfox")
     nightfox.setup({
       palettes = {
         carbonfox = {
-          comment = new_comment_str
-        }
-      }
+          comment = new_comment_str,
+        },
+      },
     })
 
     vim.cmd("colorscheme carbonfox")
-  end
+  end,
 }
