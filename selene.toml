@@ -1,0 +1,8 @@
+std = "lua51+vim"
+
+[rules]
+# lazy.nvim plugin specs and `keys` entries are array + dictionary by design,
+# e.g. { "<leader>e", function() ... end, desc = "File Explorer" }.
+mixed_table = "allow"
+# The _G.dd / _G.bt debug helpers in snacks.lua are deliberate globals.
+global_usage = "allow"

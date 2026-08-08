@@ -42,6 +42,12 @@ return {
       }),
 
       sources = cmp.config.sources({
+        -- Order matters here: a source's position in the group is worth a score
+        -- bonus, so listing lazydev first floats its module names above the
+        -- LSP's inside `require("...")`. Setting `group_index` would not help --
+        -- `cmp.config.sources` assigns it per group argument and overwrites
+        -- whatever is passed, and groups are exclusive tiers rather than ranks.
+        { name = "lazydev" },
         { name = "nvim_lsp" },
         { name = "luasnip" },
       }),

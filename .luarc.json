@@ -1,8 +1,4 @@
 {
-  "Lua.workspace.library": [
-    "$VIMRUNTIME",
-    "~/.local/share/nvim/lazy"
-  ],
   "Lua.workspace.checkThirdParty": false,
-  "Lua.diagnostics.globals": ["vim"]
+  "Lua.diagnostics.globals": ["vim", "dd", "bt"]
 }

@@ -1,0 +1,16 @@
+---
+# selene standard library for this Neovim config: declares the globals that
+# exist at runtime but aren't part of stock Lua 5.1.
+base: lua51
+globals:
+  # Neovim API
+  vim:
+    any: true
+  # Set up by snacks.nvim
+  Snacks:
+    any: true
+  # Debug helpers defined as _G.dd / _G.bt in lua/plugins/snacks.lua
+  dd:
+    any: true
+  bt:
+    any: true
