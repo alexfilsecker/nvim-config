@@ -115,7 +115,7 @@ guides · `T` treesitter · `b` dark background · `D` dimming · `B` line blame
 | --- | --- |
 | `<leader>xx` / `<leader>xX` | diagnostics — workspace / buffer |
 | `<leader>xq` / `<leader>xl` | quickfix / location list |
-| `<leader>wv` / `<leader>ws` | split vertically / horizontally |
+| `<leader>wv` / `<leader>wh` | split vertically / horizontally |
 | `<leader>we` / `<leader>wd` | equalize / close window |
 | `<leader>qq` | quit all |
 

@@ -23,9 +23,11 @@ local keymap = vim.keymap
 -- and loads after this file, so anything set here is silently overwritten --
 -- and its versions cross into tmux panes, which `:wincmd` cannot do.
 
--- Windows
+-- Windows. The split pair is `wv` / `wh` rather than the more common `wv` / `ws`
+-- (after <C-w>s): v and h name the two directions with the same scheme, which
+-- is easier to recall than remembering that "split" means the horizontal one.
 keymap.set("n", "<leader>wv", vim.cmd.vsplit, { desc = "Split Vertically" })
-keymap.set("n", "<leader>ws", vim.cmd.split, { desc = "Split Horizontally" })
+keymap.set("n", "<leader>wh", vim.cmd.split, { desc = "Split Horizontally" })
 keymap.set("n", "<leader>we", "<C-w>=", { desc = "Equalize Splits" })
 keymap.set("n", "<leader>wd", "<cmd>close<CR>", { desc = "Close Window" })
 
