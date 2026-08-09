@@ -121,10 +121,12 @@ return {
       end,
       desc = "Recent",
     },
-    -- Deliberately normal-mode only: in terminal mode <leader> is a literal
+    -- Terminal. Its own key rather than a <leader>f entry: a terminal is not a
+    -- file, and every other prefix here names the thing being acted on.
+    -- Deliberately normal-mode only -- in terminal mode <leader> is a literal
     -- space, so binding it there would swallow spaces typed into the shell.
     {
-      "<leader>ft",
+      "<leader>t",
       function()
         Snacks.terminal.toggle()
       end,

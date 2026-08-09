@@ -36,7 +36,6 @@ a plugin, so hoisting them into a central file would load everything at startup.
 | `<leader>fg` | find git files |
 | `<leader>fr` | recent files |
 | `<leader>fb` | buffers |
-| `<leader>ft`, `<C-/>` | terminal |
 
 ### search
 
@@ -132,6 +131,7 @@ guides · `T` treesitter · `b` dark background · `D` dimming · `B` line blame
 | `J` / `K` (visual) | move selection down / up |
 | `<leader>y` / `<leader>p` | yank / paste, system clipboard |
 | `<leader>+` / `<leader>-` | increment / decrement number |
+| `<leader>t`, `<C-/>` | terminal — `<C-/>` also toggles from inside it |
 | `<C-x>` (terminal) | back to normal mode |
 
 `<C-a>` is the tmux prefix and never reaches nvim, which is why increment and
