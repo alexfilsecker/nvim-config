@@ -132,7 +132,6 @@ guides · `T` treesitter · `b` dark background · `D` dimming · `B` line blame
 | `J` / `K` (visual) | move selection down / up |
 | `<leader>y` / `<leader>p` | yank / paste, system clipboard |
 | `<leader>+` / `<leader>-` | increment / decrement number |
-| `<leader>.` / `<leader>S` | scratch buffer / pick scratch |
 | `<C-x>` (terminal) | back to normal mode |
 
 `<C-a>` is the tmux prefix and never reaches nvim, which is why increment and
