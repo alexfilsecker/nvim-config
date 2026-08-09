@@ -6,11 +6,9 @@ vim.g.mapleader = " "
 -- Conciseness
 local keymap = vim.keymap
 
--- Navigate vim panes (same as in tmux)
-keymap.set("n", "<C-h>", ":wincmd h<CR>")
-keymap.set("n", "<C-j>", ":wincmd j<CR>")
-keymap.set("n", "<C-k>", ":wincmd k<CR>")
-keymap.set("n", "<C-l>", ":wincmd l<CR>")
+-- No <C-hjkl> pane navigation here. vim-tmux-navigator maps the same four keys
+-- and loads after this file, so anything set here is silently overwritten --
+-- and its versions cross into tmux panes, which `:wincmd` cannot do.
 
 -- Split views
 keymap.set("n", "<leader>s|", vim.cmd.vsplit, { desc = "Do a vertical split" })
@@ -40,9 +38,11 @@ keymap.set(
   { desc = "Remove search highlighting" }
 )
 
--- Move whole lines
-keymap.set("v", "J", ":m '>+1<CR>gv=gv", { noremap = true })
-keymap.set("v", "K", ":m '>-2<CR>gv=gv", { noremap = true })
+-- Move whole lines. The destinations are deliberately asymmetric: moving down
+-- measures from the end of the selection, moving up from its start. Using '>
+-- for both makes the up-move a no-op on any selection longer than one line.
+keymap.set("v", "J", ":m '>+1<CR>gv=gv", { desc = "Move selection down" })
+keymap.set("v", "K", ":m '<-2<CR>gv=gv", { desc = "Move selection up" })
 
 -- Increment/Decrement numbers
 keymap.set("n", "<leader>+", "<C-a>", { desc = "Increment number" }) -- increment
@@ -51,5 +51,3 @@ keymap.set("n", "<leader>-", "<C-x>", { desc = "Decrement number" }) -- incremen
 -- terminal
 keymap.set("t", "<C-x>", "<C-\\><C-n>", { desc = "Exit Terminal Mode" })
 keymap.set("n", "<leader>tt", ":terminal<CR>", { desc = "Open Terminal" })
-keymap.set("n", "<leader>tb", ":split | terminal<CR>", { desc = "Open Terminal on bottom" })
-

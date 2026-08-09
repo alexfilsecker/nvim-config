@@ -294,14 +294,10 @@ return {
       end,
       desc = "Goto Declaration",
     },
-    {
-      "gr",
-      function()
-        Snacks.picker.lsp_references()
-      end,
-      nowait = true,
-      desc = "References",
-    },
+    -- No `gr` mapping. Neovim 0.11+ ships `grn`/`gra`/`grr`/`gri`/`grt`/`grx`
+    -- as defaults, and a `gr` mapping with `nowait` fires before any of them
+    -- can be typed -- which left rename and code action unreachable, with
+    -- nothing else in this config mapping them. Use `grr` for references.
     {
       "gI",
       function()

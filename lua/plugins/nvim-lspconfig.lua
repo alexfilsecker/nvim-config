@@ -17,8 +17,10 @@ return {
         opts.desc = "Line diagnostics"
         keymap.set("n", "<leader>d", vim.diagnostic.open_float, opts)
 
-        opts.desc = "Hover"
-        keymap.set("n", "K", vim.lsp.buf.hover, opts)
+        -- No `K` here. lua/plugins/ufo.lua maps it globally to peek a folded
+        -- region and falls back to `vim.lsp.buf.hover` when the cursor isn't on
+        -- a fold, so it is a superset of this. A buffer-local mapping would win
+        -- over it on every LSP buffer and lose the fold peek.
 
         opts.desc = "Restart LSP"
         keymap.set("n", "<leader>rs", ":LspRestart<CR>", opts)
