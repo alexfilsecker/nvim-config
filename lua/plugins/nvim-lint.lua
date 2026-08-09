@@ -91,7 +91,7 @@ return {
       end,
     })
 
-    vim.keymap.set("n", "<leader>ll", function()
+    vim.keymap.set("n", "<leader>cl", function()
       -- Partition before linting, not after: `lint.try_lint` resolves names
       -- through a bare `assert(linter, ...)`, so an unknown name throws out of
       -- try_lint and the notify below would never run.
@@ -124,6 +124,6 @@ return {
           vim.log.levels.WARN
         )
       end
-    end, { desc = "Trigger linting for current file" })
+    end, { desc = "Lint File" })
   end,
 }

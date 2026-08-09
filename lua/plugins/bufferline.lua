@@ -18,16 +18,15 @@ return {
 
     local keymap = vim.keymap.set
 
-    -- Cycling
+    -- Cycling moves to the stock ]b / [b positions, but deliberately keeps
+    -- bufferline's implementation rather than the default `:bnext`/`:bprevious`
+    -- behind them. The two disagree the moment a buffer is reordered below:
+    -- `:bnext` walks buffer numbers, BufferLineCycleNext walks the order
+    -- actually drawn in the tabline, which is the one you can see.
+    keymap("n", "]b", "<cmd>BufferLineCycleNext<CR>", { desc = "Next Buffer" })
     keymap(
       "n",
-      "<leader>bn",
-      "<cmd>BufferLineCycleNext<CR>",
-      { desc = "Next Buffer" }
-    )
-    keymap(
-      "n",
-      "<leader>bp",
+      "[b",
       "<cmd>BufferLineCyclePrev<CR>",
       { desc = "Previous Buffer" }
     )
@@ -43,33 +42,23 @@ return {
       "n",
       "<leader>bl",
       "<cmd>BufferLineMoveNext<CR>",
-      { desc = "Move buffer to next" }
+      { desc = "Move Buffer Right" }
     )
     keymap(
       "n",
       "<leader>bh",
       "<cmd>BufferLineMovePrev<CR>",
-      { desc = "Move buffer to prev" }
+      { desc = "Move Buffer Left" }
     )
 
-    -- Closing
+    -- Closing. The directional variants -- close everything to the left of
+    -- here, close everything to the right -- were three-key chords that "close
+    -- others" covers well enough.
     keymap(
       "n",
-      "<leader>bxl",
-      "<cmd>BufferLineCloseRight<CR>",
-      { desc = "Close buffer to the right" }
-    )
-    keymap(
-      "n",
-      "<leader>bxh",
-      "<cmd>BufferLineCloseLeft<CR>",
-      { desc = "Close buffer to the left" }
-    )
-    keymap(
-      "n",
-      "<leader>bxo",
+      "<leader>bo",
       "<cmd>BufferLineCloseOthers<CR>",
-      { desc = "Close all other buffers" }
+      { desc = "Close Other Buffers" }
     )
     keymap(
       "n",
@@ -84,9 +73,10 @@ return {
     -- a pinned buffer was already promoted, so unpinning finds nothing left to
     -- clear. Unpinning deliberately does not hand the buffer back to preview
     -- state -- once permanent, always permanent, like VS Code.
-    keymap("n", "<leader>bP", function()
+    -- On <leader>bp now that cycling has moved to ]b / [b.
+    keymap("n", "<leader>bp", function()
       require("core.preview-buffer").promote()
       vim.cmd("BufferLineTogglePin")
-    end, { desc = "Toggle pin on buffer" })
+    end, { desc = "Toggle Pin on Buffer" })
   end,
 }

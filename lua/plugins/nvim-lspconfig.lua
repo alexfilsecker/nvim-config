@@ -14,8 +14,18 @@ return {
         local keymap = vim.keymap
         local opts = { buffer = bufnr }
 
-        opts.desc = "Line diagnostics"
-        keymap.set("n", "<leader>d", vim.diagnostic.open_float, opts)
+        opts.desc = "Line Diagnostics"
+        keymap.set("n", "<leader>cd", vim.diagnostic.open_float, opts)
+
+        -- Aliases for the stock `grn` and `gra`, which keep working. These
+        -- exist so the two actions you reach for most appear in the which-key
+        -- tree beside the rest of <leader>c, instead of living only on a
+        -- g-prefix you have to know about in advance.
+        opts.desc = "Rename Symbol"
+        keymap.set("n", "<leader>cr", vim.lsp.buf.rename, opts)
+
+        opts.desc = "Code Action"
+        keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, opts)
 
         -- No `K` here. lua/plugins/ufo.lua maps it globally to peek a folded
         -- region and falls back to `vim.lsp.buf.hover` when the cursor isn't on
@@ -23,7 +33,7 @@ return {
         -- over it on every LSP buffer and lose the fold peek.
 
         opts.desc = "Restart LSP"
-        keymap.set("n", "<leader>rs", ":LspRestart<CR>", opts)
+        keymap.set("n", "<leader>cR", ":LspRestart<CR>", opts)
 
         -- Deliberately broader than the one that runs on save. That one is
         -- eslint-only, because ts_ls charges a flat ~500ms per save to answer
@@ -31,7 +41,7 @@ return {
         -- client, ts_ls included. Async is fine here -- there's no write
         -- racing the response the way there is in BufWritePre.
         opts.desc = "Apply source.fixAll (all clients, incl. slow ts_ls)"
-        keymap.set("n", "<leader>fx", function()
+        keymap.set("n", "<leader>cx", function()
           vim.lsp.buf.code_action({
             apply = true,
             context = { only = { "source.fixAll" }, diagnostics = {} },

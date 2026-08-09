@@ -109,7 +109,7 @@ function M.run(bufnr)
   -- eslint only. ts_ls also advertises `source.fixAll`, but answering it
   -- costs a flat ~500ms per save regardless of whether anything needs
   -- fixing, and what it fixes largely overlaps with eslint's ~12ms. The
-  -- <leader>fx keymap in lua/plugins/nvim-lspconfig.lua is the deliberate
+  -- <leader>cx keymap in lua/plugins/nvim-lspconfig.lua is the deliberate
   -- opt-in to the thorough, slow version.
   --
   -- This doubles as the filetype gate: it is a scan over the attached

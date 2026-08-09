@@ -19,7 +19,7 @@ return {
           else
             gitsigns.nav_hunk("next")
           end
-        end, "gitsigns navigate to next hunk")
+        end, "Next Hunk")
 
         map("n", "[h", function()
           if vim.wo.diff then
@@ -27,71 +27,62 @@ return {
           else
             gitsigns.nav_hunk("prev")
           end
-        end, "gitsigns navigate to prev hunk")
+        end, "Previous Hunk")
 
-        -- Actions
-        map("n", "<leader>hs", gitsigns.stage_hunk, "gitsigns stage hunk")
-        map("n", "<leader>hr", gitsigns.reset_hunk, "gitsigns reset hunk")
+        -- Hunk actions, under <leader>gh so the whole git surface -- pickers,
+        -- log, blame, hunks -- hangs off <leader>g. These used to sit on
+        -- <leader>h, which also held the nohlsearch mapping.
+        map("n", "<leader>ghs", gitsigns.stage_hunk, "Stage Hunk")
+        map("n", "<leader>ghr", gitsigns.reset_hunk, "Reset Hunk")
 
-        map("v", "<leader>hs", function()
+        map("v", "<leader>ghs", function()
           gitsigns.stage_hunk({ vim.fn.line("."), vim.fn.line("v") })
-        end, "gitsigns stage hunk in visual mode")
+        end, "Stage Selected Hunk")
 
-        map("v", "<leader>hr", function()
+        map("v", "<leader>ghr", function()
           gitsigns.reset_hunk({ vim.fn.line("."), vim.fn.line("v") })
-        end, "gitsigns reset hunk in visual mode")
+        end, "Reset Selected Hunk")
 
+        map("n", "<leader>ghS", gitsigns.stage_buffer, "Stage Buffer")
+        map("n", "<leader>ghR", gitsigns.reset_buffer, "Reset Buffer")
+        map("n", "<leader>ghp", gitsigns.preview_hunk, "Preview Hunk")
         map(
           "n",
-          "<leader>hS",
-          gitsigns.stage_buffer,
-          "gitsigns stage whole buffer"
-        )
-        map(
-          "n",
-          "<leader>hR",
-          gitsigns.reset_buffer,
-          "gitsigns reset whole buffer"
-        )
-        map("n", "<leader>hp", gitsigns.preview_hunk, "gitsigns preview hunk")
-        map(
-          "n",
-          "<leader>hi",
+          "<leader>ghi",
           gitsigns.preview_hunk_inline,
-          "gitsigns preview hunk inline"
+          "Preview Hunk Inline"
         )
 
-        map("n", "<leader>hb", function()
-          gitsigns.blame_line({ full = true })
-        end, "gitsigns blame line with full")
+        map("n", "<leader>ghd", gitsigns.diffthis, "Diff This")
 
-        map("n", "<leader>hd", gitsigns.diffthis, "gitsigns diffthis")
-
-        map("n", "<leader>hD", function()
+        map("n", "<leader>ghD", function()
           gitsigns.diffthis("~")
-        end, "gitsigns diffthis with ~")
+        end, "Diff This (~)")
 
-        map("n", "<leader>hQ", function()
+        -- One quickfix mapping rather than two. The buffer-scoped variant sat
+        -- close enough to <leader>xq to not be worth a key of its own.
+        map("n", "<leader>ghq", function()
           gitsigns.setqflist("all")
-        end, "gitsigns set all q f list")
-        map("n", "<leader>hq", gitsigns.setqflist, "gitsigns set q f list")
+        end, "All Hunks to Quickfix")
 
-        -- Toggles
+        -- Blame reads as a git action rather than a hunk one, so it sits a
+        -- level up, next to the git log pickers.
+        map("n", "<leader>gb", function()
+          gitsigns.blame_line({ full = true })
+        end, "Blame Line")
+
+        -- Toggles live with the other UI toggles. <leader>tb previously shadowed
+        -- a global "open terminal on bottom" mapping in every git-tracked file.
         map(
           "n",
-          "<leader>tb",
+          "<leader>uB",
           gitsigns.toggle_current_line_blame,
-          "git signs toogle current line blame"
+          "Toggle Line Blame"
         )
-        map(
-          "n",
-          "<leader>tw",
-          gitsigns.toggle_word_diff,
-          "gitsigns toogle word diff"
-        )
+        map("n", "<leader>uW", gitsigns.toggle_word_diff, "Toggle Word Diff")
 
         -- Text object
-        map({ "o", "x" }, "ih", gitsigns.select_hunk, "gitsigns select hunk")
+        map({ "o", "x" }, "ih", gitsigns.select_hunk, "Select Hunk")
       end,
     })
   end,

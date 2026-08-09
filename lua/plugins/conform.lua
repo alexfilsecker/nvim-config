@@ -32,13 +32,13 @@ return {
       log_level = vim.log.levels.DEBUG,
     })
 
-    vim.keymap.set({ "n", "v" }, "<leader>mp", function()
+    vim.keymap.set({ "n", "v" }, "<leader>cf", function()
       conform.format({
         lsp_fallback = true,
         async = false,
         timeout_ms = 1000,
       })
-    end, { desc = "Format file or range (in visual mode)" })
+    end, { desc = "Format File or Range" })
 
     -- The only BufWritePre that rewrites the buffer. LSP `source.fixAll` used
     -- to register its own in nvim-lspconfig.lua, and since both plugins

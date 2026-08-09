@@ -92,7 +92,7 @@ return {
       end,
       desc = "File Explorer",
     },
-    -- File pickers
+    -- find/file
     {
       "<leader>fb",
       function()
@@ -120,6 +120,33 @@ return {
         Snacks.picker.recent()
       end,
       desc = "Recent",
+    },
+    -- Deliberately normal-mode only: in terminal mode <leader> is a literal
+    -- space, so binding it there would swallow spaces typed into the shell.
+    {
+      "<leader>ft",
+      function()
+        Snacks.terminal.toggle()
+      end,
+      desc = "Terminal",
+    },
+    -- Most terminals deliver <C-/> as <C-_>, a few send it verbatim. Bind both
+    -- so the shortcut works whatever nvim happens to be running inside.
+    {
+      "<C-/>",
+      function()
+        Snacks.terminal.toggle()
+      end,
+      desc = "Terminal",
+      mode = { "n", "t" },
+    },
+    {
+      "<C-_>",
+      function()
+        Snacks.terminal.toggle()
+      end,
+      desc = "Terminal",
+      mode = { "n", "t" },
     },
     -- git
     {
@@ -177,7 +204,7 @@ return {
       function()
         Snacks.picker.grep_word()
       end,
-      desc = "Visual selection or word",
+      desc = "Grep Word or Selection",
       mode = { "n", "x" },
     },
     -- search
@@ -201,20 +228,6 @@ return {
         Snacks.picker.commands()
       end,
       desc = "Commands",
-    },
-    {
-      "<leader>sd",
-      function()
-        Snacks.picker.diagnostics()
-      end,
-      desc = "Diagnostics",
-    },
-    {
-      "<leader>sD",
-      function()
-        Snacks.picker.diagnostics_buffer()
-      end,
-      desc = "Buffer Diagnostics",
     },
     {
       "<leader>sh",
@@ -252,14 +265,7 @@ return {
       desc = "Marks",
     },
     {
-      "<leader>sq",
-      function()
-        Snacks.picker.qflist()
-      end,
-      desc = "Quickfix List",
-    },
-    {
-      "<leader>sR",
+      "<leader>sr",
       function()
         Snacks.picker.resume()
       end,
@@ -272,6 +278,36 @@ return {
       end,
       desc = "Undo History",
     },
+    -- lists
+    {
+      "<leader>xx",
+      function()
+        Snacks.picker.diagnostics()
+      end,
+      desc = "Diagnostics",
+    },
+    {
+      "<leader>xX",
+      function()
+        Snacks.picker.diagnostics_buffer()
+      end,
+      desc = "Buffer Diagnostics",
+    },
+    {
+      "<leader>xq",
+      function()
+        Snacks.picker.qflist()
+      end,
+      desc = "Quickfix List",
+    },
+    {
+      "<leader>xl",
+      function()
+        Snacks.picker.loclist()
+      end,
+      desc = "Location List",
+    },
+    -- ui toggle. The rest of <leader>u is registered in init() below.
     {
       "<leader>uC",
       function()
@@ -279,7 +315,18 @@ return {
       end,
       desc = "Colorschemes",
     },
-    -- LSP
+    {
+      "<leader>un",
+      function()
+        Snacks.notifier.show_history()
+      end,
+      desc = "Notification History",
+    },
+    -- LSP navigation. `gd` is the only one worth owning: Neovim 0.11+ already
+    -- maps `grr` references, `gri` implementation, `grt` type definition,
+    -- `grn` rename, `gra` code action and `gO` document symbols. Adding our own
+    -- on top mostly risks shadowing them -- a `gr` mapping carrying `nowait`
+    -- did exactly that, and made rename and code action unreachable.
     {
       "gd",
       function()
@@ -287,44 +334,21 @@ return {
       end,
       desc = "Goto Definition",
     },
+    -- code. The rest of <leader>c lives in lua/plugins/nvim-lspconfig.lua.
+    -- Call hierarchy has no stock mapping, so it keeps one here.
     {
-      "gD",
-      function()
-        Snacks.picker.lsp_declarations()
-      end,
-      desc = "Goto Declaration",
-    },
-    -- No `gr` mapping. Neovim 0.11+ ships `grn`/`gra`/`grr`/`gri`/`grt`/`grx`
-    -- as defaults, and a `gr` mapping with `nowait` fires before any of them
-    -- can be typed -- which left rename and code action unreachable, with
-    -- nothing else in this config mapping them. Use `grr` for references.
-    {
-      "gI",
-      function()
-        Snacks.picker.lsp_implementations()
-      end,
-      desc = "Goto Implementation",
-    },
-    {
-      "gy",
-      function()
-        Snacks.picker.lsp_type_definitions()
-      end,
-      desc = "Goto T[y]pe Definition",
-    },
-    {
-      "gai",
+      "<leader>ci",
       function()
         Snacks.picker.lsp_incoming_calls()
       end,
-      desc = "C[a]lls Incoming",
+      desc = "Incoming Calls",
     },
     {
-      "gao",
+      "<leader>co",
       function()
         Snacks.picker.lsp_outgoing_calls()
       end,
-      desc = "C[a]lls Outgoing",
+      desc = "Outgoing Calls",
     },
     {
       "<leader>ss",
@@ -355,13 +379,7 @@ return {
       end,
       desc = "Select Scratch Buffer",
     },
-    {
-      "<leader>nh",
-      function()
-        Snacks.notifier.show_history()
-      end,
-      desc = "Notification History",
-    },
+    -- buffer. The rest of <leader>b lives in lua/plugins/bufferline.lua.
     {
       "<leader>bd",
       function()

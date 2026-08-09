@@ -11,20 +11,31 @@ return {
     vim.o.foldlevelstart = 99
     vim.o.foldenable = true
 
-    vim.o.fillchars =
-      "eob: ,fold: ,foldopen:,foldsep: ,foldclose:"
+    vim.o.fillchars = "eob: ,fold: ,foldopen:,foldsep: ,foldclose:"
 
     -- Keymaps (must override default zR / zM)
-    vim.keymap.set("n", "zR", require("ufo").openAllFolds)
-    vim.keymap.set("n", "zM", require("ufo").closeAllFolds)
+    vim.keymap.set(
+      "n",
+      "zR",
+      require("ufo").openAllFolds,
+      { desc = "Open All Folds" }
+    )
+    vim.keymap.set(
+      "n",
+      "zM",
+      require("ufo").closeAllFolds,
+      { desc = "Close All Folds" }
+    )
 
-    -- Optional: preview folds with K, fallback to hover
+    -- Preview folds with K, falling back to hover off a fold. This is the only
+    -- `K` in the config: lua/plugins/nvim-lspconfig.lua deliberately does not
+    -- map a buffer-local hover, which would win over this and lose the peek.
     vim.keymap.set("n", "K", function()
       local winid = require("ufo").peekFoldedLinesUnderCursor()
       if not winid then
         vim.lsp.buf.hover()
       end
-    end)
+    end, { desc = "Peek Fold or Hover" })
 
     require("ufo").setup({
       -- Provider priority
