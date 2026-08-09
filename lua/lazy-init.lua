@@ -24,12 +24,11 @@ require("lazy").setup({
   rocks = {
     enabled = false,
   },
-  {
-    checker = {
-      enabled = true,
-      notify = false,
-    },
-    change_detection = {
-      notify = false, -- Disable annoying notifications whenever a plugin file changes
-    },
-}})
+  checker = {
+    enabled = true,
+    notify = false,
+  },
+  change_detection = {
+    notify = false, -- Disable annoying notifications whenever a plugin file changes
+  },
+})
